@@ -18,7 +18,8 @@ export class Order {
 
   @Column({
     type: 'enum',
-    enum: OrderStatus
+    enum: OrderStatus,
+    default: OrderStatus.PAYMENT_PENDING
   })
   orderStatus: OrderStatus;
 
