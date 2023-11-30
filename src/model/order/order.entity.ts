@@ -36,6 +36,10 @@ export class Order {
   })
   items: Item[];
 
-  @OneToOne(() => Payment, (payment) => payment.order)
+  @OneToOne(() => Payment, (payment) => payment.order, { cascade: true })
+  @JoinColumn({
+    name: 'payment_id',
+    foreignKeyConstraintName: 'fk_payment_id'
+  })
   payment: Payment;
 }

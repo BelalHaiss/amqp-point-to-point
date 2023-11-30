@@ -7,5 +7,9 @@ export const AmpqConfig = {
   exchange: {
     order: 'order_exchange',
     payment: 'payment_exchange'
+  },
+  patterns: {
+    order: 'order',
+    payment: 'payment'
   }
 };
