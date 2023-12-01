@@ -6,12 +6,8 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { Order } from '../order/order.entity';
+import { PaymentStatus } from './payment.types';
 
-export enum PaymentStatus {
-  APPROVED = 'approved',
-  FAILED = 'failed',
-  PEDNING = 'pending'
-}
 @Entity('payment')
 export class Payment {
   @PrimaryGeneratedColumn()
