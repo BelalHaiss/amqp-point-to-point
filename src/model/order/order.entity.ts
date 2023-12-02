@@ -11,7 +11,7 @@ import { OrderStatus } from './order.types';
 import { Payment } from '../payment/payment.entity';
 import { Item } from '../item/item.entity';
 
-@Entity('order')
+@Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;

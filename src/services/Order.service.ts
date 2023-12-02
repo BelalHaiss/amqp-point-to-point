@@ -1,6 +1,7 @@
 import { OrderConsumer } from '../amqp/consumer/order-consumer';
 import { OrderProducer } from '../amqp/producer/order-producer';
 import { Order } from '../model/order/order.entity';
+import { PaymentQueue } from '../model/payment/payment.types';
 import { OrderRepoistory } from '../repository/order.repository';
 import { PaymentService } from './payment.service';
 
@@ -13,15 +14,19 @@ export class OrderService {
 
   constructor() {
     if (!OrderService.isConsuming) {
-      this.orderConsumer.consumeOrder(this.handleOrderConsuming);
+      this.orderConsumer.consumeOrder(this.handleOrderConsuming.bind(this));
       OrderService.isConsuming = true;
     }
   }
 
   public async NewOrder(order: Order) {
-    await this.orderRepoistory.save(order);
+    const savedOrder = await this.orderRepoistory.save(order);
+    const payment: PaymentQueue = {
+      ...savedOrder.payment,
+      orderId: savedOrder.id
+    };
 
-    await this.paymentService.publish(order.payment);
+    this.paymentService.publish(payment);
   }
 
   public async newOrderFromBulk(order: Order) {

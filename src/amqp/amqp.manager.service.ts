@@ -37,9 +37,12 @@ export class AmqpManager {
     const { exchange, queue, pattern } = this.getConfig(queueType);
     if (!this[channelType]) {
       const createdChannel = await this.connection.createChannel();
-      createdChannel.assertExchange(exchange, 'direct', { durable: true });
-      createdChannel.assertQueue(queue, { durable: true });
-      createdChannel.bindQueue(queue, exchange, pattern);
+      await createdChannel.assertExchange(exchange, 'direct', {
+        durable: true
+      });
+      await createdChannel.assertQueue(queue, { durable: true });
+      await createdChannel.bindQueue(queue, exchange, pattern);
+      this[channelType] = createdChannel;
     }
     const channel = this[channelType];
     return {

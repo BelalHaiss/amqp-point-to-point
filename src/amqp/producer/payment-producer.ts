@@ -1,8 +1,8 @@
-import { Payment } from '../../model/payment/payment.entity';
+import { PaymentQueue } from '../../model/payment/payment.types';
 import { AmqpService } from '../amqp.service';
 
 export class PaymentProducer extends AmqpService {
-  public async publishPayment(payment: Payment) {
+  public async publishPayment(payment: PaymentQueue) {
     try {
       const { channel, pattern, exchange } = await super.getChannelWithConfig(
         'payment_channel'

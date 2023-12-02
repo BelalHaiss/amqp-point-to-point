@@ -6,3 +6,9 @@ export enum PaymentStatus {
   FAILED = 'failed',
   PEDNING = 'pending'
 }
+
+export class PaymentQueue implements Omit<Payment, 'order'> {
+  id: number;
+  status: PaymentStatus;
+  orderId: number;
+}

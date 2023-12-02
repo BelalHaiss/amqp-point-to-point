@@ -1,8 +1,7 @@
-import { Payment } from '../model/payment/payment.entity';
-import { PaymentStatus } from '../model/payment/payment.types';
+import { PaymentQueue, PaymentStatus } from '../model/payment/payment.types';
 
 export class PaymentGatwayService {
-  public processPayment(payment: Payment) {
+  public processPayment(payment: PaymentQueue) {
     const isPaymentValid = this.mockValidation();
 
     const paymentStatus = isPaymentValid
