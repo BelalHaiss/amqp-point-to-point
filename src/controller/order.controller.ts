@@ -1,4 +1,4 @@
-import { NextFunction, Router } from 'express';
+import { Router } from 'express';
 import { warpAsync } from '../shared/util/wrapper';
 import { OrderService } from '../services/Order.service';
 

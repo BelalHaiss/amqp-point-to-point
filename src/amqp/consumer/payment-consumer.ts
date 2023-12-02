@@ -5,7 +5,7 @@ export class PaymentConsumer extends AmqpService {
   public async consumePayment(cb: (payment: PaymentQueue) => Promise<void>) {
     try {
       const { channel, queue } = await super.getChannelWithConfig(
-        'payment_channel'
+        'payment_consumer_channel'
       );
       await channel.consume(queue, async (message) => {
         const payment: PaymentQueue = JSON.parse(message!.content.toString());

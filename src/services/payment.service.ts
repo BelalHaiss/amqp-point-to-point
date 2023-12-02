@@ -14,33 +14,25 @@ export class PaymentService {
 
   constructor() {
     if (!PaymentService.isConsuming) {
+      PaymentService.isConsuming = true;
       this.paymentConsumer.consumePayment(
         this.handlePaymentConsumer.bind(this)
       );
-      PaymentService.isConsuming = true;
     }
   }
 
   private async handlePaymentConsumer(payment: PaymentQueue) {
     const paymentStatus = this.paymentGateway.processPayment(payment);
-
-    paymentStatus;
     const orderStatus =
       paymentStatus === PaymentStatus.FAILED
         ? OrderStatus['FAILED']
         : OrderStatus['IN_PROGRESS'];
 
-    const order = await this.orderRepoistory.findOneOrFail({
-      where: {
-        id: payment.orderId
-      },
-      relations: {
-        payment: true
-      }
-    });
-    order.payment.status = paymentStatus;
-    order.orderStatus = orderStatus;
-    await this.orderRepoistory.save(order);
+    await this.orderRepoistory.updateStatusForOrderAndPayment(
+      payment.id,
+      orderStatus,
+      paymentStatus
+    );
   }
   public async publish(payment: PaymentQueue): Promise<void> {
     await this.paymentProducer.publishPayment(payment);

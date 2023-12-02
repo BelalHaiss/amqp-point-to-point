@@ -7,7 +7,6 @@ export class PaymentProducer extends AmqpService {
       const { channel, pattern, exchange } = await super.getChannelWithConfig(
         'payment_channel'
       );
-
       await channel.publish(
         exchange,
         pattern,

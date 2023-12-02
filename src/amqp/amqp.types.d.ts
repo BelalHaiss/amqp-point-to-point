@@ -9,4 +9,8 @@ export type ChannelWithConfig = {
 
 export type QueueType = 'payment' | 'order';
 
-export type ChannelType = 'payment_channel' | 'order_channel';
+export type ChannelType =
+  | 'payment_channel'
+  | 'order_channel'
+  | 'payment_consumer_channel'
+  | 'order_consumer_channel';

@@ -7,7 +7,8 @@ export class AmqpManager {
   private ampqConfig = AmpqConfig;
   private payment_channel: amqplib.Channel;
   private order_channel: amqplib.Channel;
-
+  private payment_consumer_channel: amqplib.Channel;
+  private order_consumer_channel: amqplib.Channel;
   private async handleConnection() {
     try {
       if (this.connection) return;
@@ -31,8 +32,9 @@ export class AmqpManager {
 
   public async getChannelWithConfig(channelType: ChannelType) {
     await this.handleConnection();
-    const queueType: QueueType =
-      channelType === 'payment_channel' ? 'payment' : 'order';
+    const queueType: QueueType = channelType.includes('payment')
+      ? 'payment'
+      : 'order';
 
     const { exchange, queue, pattern } = this.getConfig(queueType);
     if (!this[channelType]) {

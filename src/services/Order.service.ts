@@ -14,8 +14,8 @@ export class OrderService {
 
   constructor() {
     if (!OrderService.isConsuming) {
-      this.orderConsumer.consumeOrder(this.handleOrderConsuming.bind(this));
       OrderService.isConsuming = true;
+      this.orderConsumer.consumeOrder(this.handleOrderConsuming.bind(this));
     }
   }
 
@@ -26,7 +26,7 @@ export class OrderService {
       orderId: savedOrder.id
     };
 
-    this.paymentService.publish(payment);
+    await this.paymentService.publish(payment);
   }
 
   public async newOrderFromBulk(order: Order) {

@@ -5,7 +5,7 @@ export class OrderConsumer extends AmqpService {
   public async consumeOrder(cb: (order: Order) => Promise<void>) {
     try {
       const { channel, queue } = await super.getChannelWithConfig(
-        'order_channel'
+        'order_consumer_channel'
       );
 
       await channel.consume(queue, async (message) => {
